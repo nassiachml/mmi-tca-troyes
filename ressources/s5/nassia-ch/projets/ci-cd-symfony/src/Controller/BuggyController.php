@@ -25,4 +25,3 @@ class BuggyController extends AbstractController
         return $this->json($this->getData());
     }
 }
-
