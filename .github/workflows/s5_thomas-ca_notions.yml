@@ -31,7 +31,7 @@ jobs:
 
       - name: Markdown to Html
         run: |
-          mkdir -p dist/s5/thomas-ca/cours/notions/
+          mkdir -p dist/s5/thomas-ca/tps/notions/
           cp ressources/s5/thomas-ca/tps/ci-cd-symfony/index.md dist/s5/thomas-ca/tps/ci-cd-symfony/index.html
           # npx markdown-to-html-cli --source ressources/s5/thomas-ca/tps/ci-cd-symfony/main.md --output dist/s5/thomas-ca/tps/ci-cd-symfony/index.html
 
