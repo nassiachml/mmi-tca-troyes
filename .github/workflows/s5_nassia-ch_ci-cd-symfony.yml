@@ -22,7 +22,12 @@ jobs:
           
       - name: Install dependencies
         run: composer install --no-progress --prefer-dist --no-scripts
-        
+
+      - name: Install frontend dependencies
+        run: php bin/console importmap:install
+
+      - name: Compile assets
+        run: php bin/console asset-map:compile        
       - name: Run PHP-CS-Fixer
         run: ./vendor/bin/php-cs-fixer fix --dry-run --diff
         
