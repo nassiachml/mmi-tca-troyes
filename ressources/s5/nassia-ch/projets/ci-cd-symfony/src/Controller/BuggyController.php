@@ -8,6 +8,15 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class BuggyController extends AbstractController
 {
+    #[Route('/buggy', name: 'app_buggy', methods: ['GET'])]
+    public function index(): JsonResponse
+    {
+        $data = $this->getData();
+
+
+        return $this->json($data);
+    }
+
     /**
      * @return array<string, int>
      */
@@ -17,11 +26,5 @@ class BuggyController extends AbstractController
             'key1' => 1,
             'key2' => 2,
         ];
-    }
-
-    #[Route('/buggy', name: 'app_buggy', methods: ['GET'])]
-    public function index(): JsonResponse
-    {
-        return $this->json($this->getData());
     }
 }
