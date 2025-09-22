@@ -57,7 +57,10 @@ jobs:
         continue-on-error: true
         
 - name: Create artifact archive
-        run: tar -czf symfony-artifact-r1.tar.gz --exclude=.git --exclude=tests --exclude=var/cache --exclude=symfony-artifact-r1.tar.gz .
+        run: |
+          cd ..
+          tar -czf symfony-artifact-r1.tar.gz ci-cd-symfony --exclude=ci-cd-symfony/.git --exclude=ci-cd-symfony/tests --exclude=ci-cd-symfony/var/cache
+          mv symfony-artifact-r1.tar.gz ci-cd-symfony/
         continue-on-error: true
               
       - name: Upload artifact
