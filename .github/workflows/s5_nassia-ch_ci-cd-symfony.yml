@@ -71,8 +71,8 @@ jobs:
               --exclude=README.md \
               --exclude=*.log \
               --exclude=*.gitignore \
+              --exclude=symfony-artifact-r1.tar.gz \
               .
-        continue-on-error: true
               
       - name: Upload artifact
         uses: actions/upload-artifact@v4
