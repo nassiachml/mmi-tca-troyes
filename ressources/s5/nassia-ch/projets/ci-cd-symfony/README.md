@@ -172,3 +172,4 @@ Le projet contient un contrôleur `BuggyController` avec un bug à corriger. Vot
 - [Documentation Composer Audit](https://getcomposer.org/doc/03-cli.md#audit)
 
 # Test trigger
+# Force workflow trigger
