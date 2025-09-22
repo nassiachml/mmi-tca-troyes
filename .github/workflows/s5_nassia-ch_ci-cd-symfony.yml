@@ -59,20 +59,19 @@ jobs:
         
       - name: Create artifact archive
         run: |
-          tar -czvf symfony-artifact-r1.tar.gz \
-              --exclude=.git \
-              --exclude=node_modules \
-              --exclude=var/cache \
-              --exclude=var/log \
-              --exclude=tests \
-              --exclude=.env \
-              --exclude=docker \
-              --exclude=docker-compose.yml \
-              --exclude=README.md \
-              --exclude=*.log \
-              --exclude=*.gitignore \
-              --exclude=symfony-artifact-r1.tar.gz \
-              .
+          mkdir -p /tmp/symfony-artifact
+          cp -r . /tmp/symfony-artifact/
+          rm -rf /tmp/symfony-artifact/.git
+          rm -rf /tmp/symfony-artifact/node_modules
+          rm -rf /tmp/symfony-artifact/var/cache
+          rm -rf /tmp/symfony-artifact/var/log
+          rm -rf /tmp/symfony-artifact/tests
+          rm -rf /tmp/symfony-artifact/docker
+          rm -f /tmp/symfony-artifact/docker-compose.yml
+          rm -f /tmp/symfony-artifact/.env
+          cd /tmp
+          tar -czf symfony-artifact-r1.tar.gz -C symfony-artifact .
+          cp symfony-artifact-r1.tar.gz $GITHUB_WORKSPACE/ressources/s5/nassia-ch/projets/ci-cd-symfony/
               
       - name: Upload artifact
         uses: actions/upload-artifact@v4
