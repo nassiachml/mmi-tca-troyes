@@ -122,7 +122,7 @@ jobs:
         run: php bin/console asset-map:compile
         continue-on-error: true
         
-- name: Create artifact archive
+      - name: Create artifact archive
         run: |
           tar -czvf symfony-artifact-r1.tar.gz \
               --exclude=.git \
