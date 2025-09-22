@@ -64,7 +64,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: symfony-artifact
-          path: symfony-artifact-r1.tar.gzname: Symfony CI
+    path: symfony-artifact-r1.tar.gz
 on:
   push:
     branches:
