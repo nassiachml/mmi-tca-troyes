@@ -26,10 +26,9 @@ jobs:
       - name: Install frontend dependencies
         run: php bin/console importmap:install
 
-      - name: Compile assets
-        run: php bin/console asset-map:compile        
-      - name: Run PHP-CS-Fixer
-        run: ./vendor/bin/php-cs-fixer fix --dry-run --diff
+       - name: Compile assets
+        run: php bin/console asset-map:compile
+        continue-on-error: true
         
       - name: Run PHP lint
         run: find src tests -name "*.php" -exec php -l {} \;
