@@ -13,53 +13,40 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      
       - name: Set up PHP
         uses: shivammathur/setup-php@v2
         with:
           php-version: "8.2"
           coverage: pcov
-          
       - name: Install dependencies
         run: composer install --no-progress --prefer-dist --no-scripts
-        
       - name: Run PHP-CS-Fixer
         run: ./vendor/bin/php-cs-fixer fix --dry-run --diff
-        
       - name: Run PHP lint
         run: find src tests -name "*.php" -exec php -l {} \;
-        
       - name: Run PHPStan
         run: ./vendor/bin/phpstan analyse
-        
       - name: Run PHPUnit
         run: ./vendor/bin/phpunit --coverage-text --coverage-clover=coverage.xml
-        
       - name: Audit de sécurité
         run: composer audit --format=json --no-interaction
         continue-on-error: true
-
       - name: Install production dependencies
         run: composer install --no-dev --optimize-autoloader --no-scripts
-        
       - name: Dump environment variables for production
         run: composer dump-env prod
         env:
           APP_ENV: prod
           DATABASE_URL: ${{ secrets.DATABASE_URL }}
-          
       - name: Install frontend dependencies
         run: php bin/console importmap:install
         continue-on-error: true
-        
       - name: Compile assets
         run: php bin/console asset-map:compile
         continue-on-error: true
-        
       - name: Create artifact archive
         run: tar -czf symfony-artifact-r1.tar.gz . --exclude=.git --exclude=tests --exclude=var/cache
         continue-on-error: true
-              
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
