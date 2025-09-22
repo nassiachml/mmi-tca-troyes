@@ -56,21 +56,9 @@ jobs:
         run: php bin/console asset-map:compile
         continue-on-error: true
         
-      - name: Create artifact archive
-        run: |
-          tar -czvf symfony-artifact-r1.tar.gz \
-              --exclude=.git \
-              --exclude=node_modules \
-              --exclude=var/cache \
-              --exclude=var/log \
-              --exclude=tests \
-              --exclude=.env \
-              --exclude=docker \
-              --exclude=docker-compose.yml \
-              --exclude=README.md \
-              --exclude=*.log \
-              --exclude=*.gitignore \
-              .
+- name: Create artifact archive
+        run: tar -czf symfony-artifact-r1.tar.gz --exclude=.git --exclude=tests --exclude=var/cache --exclude=symfony-artifact-r1.tar.gz .
+        continue-on-error: true
               
       - name: Upload artifact
         uses: actions/upload-artifact@v4
@@ -134,13 +122,26 @@ jobs:
         run: php bin/console asset-map:compile
         continue-on-error: true
         
-    - name: Create artifact archive
-        run: tar -czf symfony-artifact-r1.tar.gz --exclude=.git --exclude=tests --exclude=var/cache .
-        continue-on-error: true
+- name: Create artifact archive
+        run: |
+          tar -czvf symfony-artifact-r1.tar.gz \
+              --exclude=.git \
+              --exclude=node_modules \
+              --exclude=var/cache \
+              --exclude=var/log \
+              --exclude=tests \
+              --exclude=.env \
+              --exclude=docker \
+              --exclude=docker-compose.yml \
+              --exclude=README.md \
+              --exclude=*.log \
+              --exclude=*.gitignore \
+              .
               
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
+
           name: symfony-artifact
           path: symfony-artifact-r1.tar.gzname: Symfony CI
 on:
