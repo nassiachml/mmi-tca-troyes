@@ -173,3 +173,4 @@ Le projet contient un contrôleur `BuggyController` avec un bug à corriger. Vot
 
 # Test trigger
 # Force workflow trigger
+# Trigger workflow
