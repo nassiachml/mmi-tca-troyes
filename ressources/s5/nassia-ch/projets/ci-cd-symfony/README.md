@@ -176,3 +176,4 @@ Le projet contient un contrôleur `BuggyController` avec un bug à corriger. Vot
 # Trigger workflow
 # Trigger deployment
 # Trigger deploy
+# Test complete deployment
