@@ -52,6 +52,12 @@ jobs:
         with:
           name: symfony-artifact
           path: ressources/s5/nassia-ch/projets/ci-cd-symfony/symfony-artifact-r1.tar.gz
+
+      - name: Download artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: symfony-artifact
+          
       - name: Deploy to VPS
         uses: appleboy/scp-action@master
         with:
