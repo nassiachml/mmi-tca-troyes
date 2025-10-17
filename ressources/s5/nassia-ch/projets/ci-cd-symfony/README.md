@@ -177,3 +177,4 @@ Le projet contient un contrôleur `BuggyController` avec un bug à corriger. Vot
 # Trigger deployment
 # Trigger deploy
 # Test complete deployment
+# Docker deployment test
