@@ -180,3 +180,4 @@ Le projet contient un contrôleur `BuggyController` avec un bug à corriger. Vot
 # Docker deployment test
 # Test Docker deployment - Fri Oct 17 12:10:01 CEST 2025
 # Fix Docker build paths - Fri Oct 17 12:14:40 CEST 2025
+# Test SSH authentication - Fri Oct 17 12:21:29 CEST 2025
