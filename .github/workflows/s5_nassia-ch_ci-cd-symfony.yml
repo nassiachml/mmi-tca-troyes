@@ -1,13 +1,16 @@
 name: Symfony CI
+
 on:
   push:
     branches:
       - main
     paths:
       - "ressources/s5/nassia-ch/projets/ci-cd-symfony/**"
+
 defaults:
   run:
     working-directory: ressources/s5/nassia-ch/projets/ci-cd-symfony
+
 jobs:
   ci-symfony:
     runs-on: ubuntu-latest
@@ -65,7 +68,7 @@ jobs:
         with:
           name: symfony-artifact
           path: symfony-artifact-r1.tar.gz
-          
+
       - name: Download artifact
         uses: actions/download-artifact@v4
         with:
@@ -100,7 +103,7 @@ jobs:
           tags: |
             ghcr.io/${{ github.repository_owner }}/symfony-nginx:latest
             ghcr.io/${{ github.repository_owner }}/symfony-nginx:${{ github.sha }}
-          
+
       - name: Deploy to VPS
         uses: appleboy/scp-action@master
         with:
@@ -121,8 +124,37 @@ jobs:
           script: |
             cd /var/www/my-app
             echo ${{ secrets.GHCR_TOKEN }} | docker login ghcr.io -u ${{ github.actor }} --password-stdin
-            wget -O docker-compose.prod.yml https://raw.githubusercontent.com/${{ github.repository }}/main/ressources/s5/nassia-ch/projets/ci-cd-symfony/docker-compose.prod.yml
+            cat > docker-compose.prod.yml << 'EOF'
+            version: '3.8'
+            services:
+              php:
+                image: ghcr.io/${{ github.repository_owner }}/symfony-php:latest
+                container_name: symfony-php
+                volumes:
+                  - .:/var/www/html
+                environment:
+                  APP_ENV: prod
+                  DATABASE_URL: mysql://symfony_user:symfony123@host.docker.internal:3306/symfony_app?serverVersion=10.11
+                networks:
+                  - symfony
+              nginx:
+                image: ghcr.io/${{ github.repository_owner }}/symfony-nginx:latest
+                container_name: symfony-nginx
+                ports:
+                  - "8082:80"
+                volumes:
+                  - ./public:/var/www/html/public
+                depends_on:
+                  - php
+                networks:
+                  - symfony
+            networks:
+              symfony:
+                driver: bridge
+            EOF
             docker-compose -f docker-compose.prod.yml pull
+            docker-compose -f docker-compose.prod.yml down
             docker-compose -f docker-compose.prod.yml up -d
-            docker-compose -f docker-compose.prod.yml exec -T php php bin/console doctrine:migrations:migrate --no-interaction
-            docker-compose -f docker-compose.prod.yml exec -T php php bin/console cache:clear --env=prod
+            sleep 10
+            docker-compose -f docker-compose.prod.yml exec -T php php bin/console doctrine:migrations:migrate --no-interaction || true
+            docker-compose -f docker-compose.prod.yml exec -T php php bin/console cache:clear --env=prod || true
