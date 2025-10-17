@@ -83,8 +83,8 @@ jobs:
       - name: Build and push PHP image
         uses: docker/build-push-action@v5
         with:
-          context: .
-          file: ./dockerfile-php
+          context: ressources/s5/nassia-ch/projets/ci-cd-symfony
+          file: ressources/s5/nassia-ch/projets/ci-cd-symfony/dockerfile-php
           push: true
           tags: |
             ghcr.io/${{ github.repository_owner }}/symfony-php:latest
@@ -93,8 +93,8 @@ jobs:
       - name: Build and push Nginx image
         uses: docker/build-push-action@v5
         with:
-          context: .
-          file: ./docker/nginx/dockerfile-nginx
+          context: ressources/s5/nassia-ch/projets/ci-cd-symfony
+          file: ressources/s5/nassia-ch/projets/ci-cd-symfony/docker/nginx/dockerfile-nginx
           push: true
           tags: |
             ghcr.io/${{ github.repository_owner }}/symfony-nginx:latest
