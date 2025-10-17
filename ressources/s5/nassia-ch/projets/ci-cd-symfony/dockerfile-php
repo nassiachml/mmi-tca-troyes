@@ -1,0 +1,35 @@
+FROM php:8.2-fpm
+
+# Installation des dépendances système et extensions PHP
+RUN apt-get update && apt-get install -y \
+    git \
+    unzip \
+    libzip-dev \
+    libpq-dev \
+    libicu-dev \
+    && docker-php-ext-install \
+    pdo \
+    pdo_mysql \
+    intl \
+    opcache \
+    zip \
+    && apt-get clean
+
+# Installation de Composer
+COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
+
+# Configuration du répertoire de travail
+WORKDIR /var/www/html
+
+# Copier les fichiers de l'application
+COPY . .
+
+# Installer les dépendances de production
+RUN composer install --no-dev --optimize-autoloader --no-interaction
+
+# Configuration des permissions
+RUN chown -R www-data:www-data /var/www/html/var
+
+EXPOSE 9000
+
+CMD ["php-fpm"]

@@ -1,0 +1,29 @@
+version: '3.8'
+
+services:
+  php:
+    image: ghcr.io/nassiachml/symfony-php:latest
+    container_name: symfony-php
+    volumes:
+      - .:/var/www/html
+    environment:
+      APP_ENV: prod
+      DATABASE_URL: ${DATABASE_URL}
+    networks:
+      - symfony
+
+  nginx:
+    image: ghcr.io/nassiachml/symfony-nginx:latest
+    container_name: symfony-nginx
+    ports:
+      - "8082:80"
+    volumes:
+      - ./public:/var/www/html/public
+    depends_on:
+      - php
+    networks:
+      - symfony
+
+networks:
+  symfony:
+    driver: bridge
